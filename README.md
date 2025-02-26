@@ -1,3 +1,3 @@
 # BucketList
 
-[Todo](./todos.md)
+[Todo](todo.md)
