@@ -3,6 +3,7 @@
 ## Frontend (Vue.js)
 
 ### 1. Project Setup
+
 - [ ] **Initialize Project**
   - [ ] Use Vue CLI to scaffold a new project
   - [ ] Set up folder structure (components, views, services, assets, etc.)
@@ -13,6 +14,7 @@
   - [ ] Configure ESLint/Prettier for code quality
 
 ### 2. UI/UX & Design
+
 - [ ] **Wireframe Pages**
   - [ ] Home/Landing page
   - [ ] Signup/Login page
@@ -27,12 +29,14 @@
   - [ ] Select icons/images (or use an icon library like Font Awesome)
 
 ### 3. Routing & Navigation
+
 - [ ] **Setup Vue Router**
   - [ ] Define routes for Home, Login, Signup, Dashboard, Bucket List Detail, Profile, etc.
 - [ ] **Navigation Guards**
   - [ ] Implement route protection for authenticated pages
 
 ### 4. State Management
+
 - [ ] **Setup Vuex/Pinia**
   - [ ] Create modules/stores for user authentication and bucket list data
 - [ ] **Implement Actions & Mutations**
@@ -40,6 +44,7 @@
   - [ ] Manage bucket list items (add, edit, delete, mark as complete)
 
 ### 5. Authentication
+
 - [ ] **Build Forms**
   - [ ] Create signup and login components with validation
 - [ ] **API Integration**
@@ -48,6 +53,7 @@
   - [ ] Implement auto-login/logout features
 
 ### 6. Bucket List Features
+
 - [ ] **Dashboard**
   - [ ] Display a list of bucket list items
   - [ ] Add filtering/sorting (by category, status, deadline)
@@ -60,11 +66,13 @@
   - [ ] Provide options to share or mark as favorite
 
 ### 7. Social/Sharing Features
+
 - [ ] **Sharing Options**
   - [ ] Add social media share buttons
   - [ ] Allow users to set items as public or private
 
 ### 8. Notifications/Reminders
+
 - [ ] **Reminder Setup**
   - [ ] Integrate a notifications library or browser notifications
 - [ ] **Settings Page**
@@ -73,6 +81,7 @@
   - [ ] Highlight items with upcoming deadlines
 
 ### 9. PWA/Mobile Optimization
+
 - [ ] **PWA Setup**
   - [ ] Configure `manifest.json` and service worker for offline capabilities
 - [ ] **Performance Optimization**
@@ -80,6 +89,7 @@
   - [ ] Test responsiveness on multiple devices
 
 ### 10. Testing & Deployment
+
 - [ ] **Testing**
   - [ ] Write unit tests for components (using Jest/Vue Test Utils)
   - [ ] Perform manual testing across different browsers and devices
@@ -93,22 +103,25 @@
 ## Backend (Express.js)
 
 ### 1. Project Setup
-- [ ] **Initialize Project**
-  - [ ] Set up a new Node.js project with Express
-  - [ ] Organize folder structure (routes, controllers, models, middleware)
-- [ ] **Install Dependencies**
-  - [ ] Install Express, dotenv, cors, bcrypt, jsonwebtoken
-  - [ ] Install ORM/ODM (Mongoose for MongoDB or Sequelize for SQL)
-  - [ ] Install Multer (for file uploads) and express-validator (for input validation)
+
+- [x] **Initialize Project**
+  - [x] Set up a new Node.js project with Express
+  - [x] Organize folder structure (routes, controllers, models, middleware)
+- [x] **Install Dependencies**
+  - [x] Install Express, dotenv, cors, bcrypt, jsonwebtoken
+  - [x] Install ORM/ODM (Mongoose for MongoDB or Sequelize for SQL)
+  - [x] Install Multer (for file uploads) and express-validator (for input validation)
 
 ### 2. Database & Models
-- [ ] **Choose a Database**
-  - [ ] Decide between MongoDB (with Mongoose) or PostgreSQL (with Sequelize)
+
+- [x] **Choose a Database**
+  - [x] Decide between MongoDB (with Mongoose) or PostgreSQL (with Sequelize)
 - [ ] **Define Models**
   - [ ] **User Model:** username, email, hashed password, profile info
   - [ ] **Bucket List Item Model:** title, description, images, notes, deadline, status (complete/incomplete), privacy (public/private), and user reference
 
 ### 3. Authentication & Authorization
+
 - [ ] **User Authentication Endpoints**
   - [ ] POST `/signup` – Register a new user
   - [ ] POST `/login` – Authenticate and return a JWT token
@@ -117,30 +130,37 @@
   - [ ] Use bcrypt for password hashing
 
 ### 4. API Endpoints
-#### User Endpoints:
+
+#### User Endpoints
+
 - [ ] GET `/profile` – Retrieve the logged-in user's profile
 - [ ] PUT `/profile` – Update user profile details
 
-#### Bucket List Endpoints:
+#### Bucket List Endpoints
+
 - [ ] GET `/bucketlists` – Retrieve all bucket list items for the authenticated user
 - [ ] GET `/bucketlists/:id` – Retrieve a specific bucket list item
 - [ ] POST `/bucketlists` – Create a new bucket list item
 - [ ] PUT `/bucketlists/:id` – Update an existing bucket list item
 - [ ] DELETE `/bucketlists/:id` – Delete a bucket list item
 
-#### Social/Sharing Endpoints:
+#### Social/Sharing Endpoints
+
 - [ ] GET `/public/bucketlists` – Retrieve all public bucket list items
 
-#### Notifications/Reminders:
+#### Notifications/Reminders
+
 - [ ] (Optional) Create endpoints for managing notification settings and reminders
 
 ### 5. File Uploads
+
 - [ ] **Image Uploads**
   - [ ] Set up Multer for handling image uploads
   - [ ] Configure storage options (local or cloud like AWS S3)
   - [ ] Validate file types and sizes
 
 ### 6. Middleware & Security
+
 - [ ] **Error Handling**
   - [ ] Implement global error handling middleware
 - [ ] **Input Validation**
@@ -152,6 +172,7 @@
   - [ ] Use Helmet for setting secure HTTP headers
 
 ### 7. Testing & Debugging
+
 - [ ] **Write Tests**
   - [ ] Use Mocha, Chai, or Jest for unit/integration tests
 - [ ] **API Testing**
@@ -160,6 +181,7 @@
   - [ ] Implement logging with Winston or Morgan
 
 ### 8. Deployment & Maintenance
+
 - [ ] **Prepare for Production**
   - [ ] Configure environment variables (DB URI, JWT secret, etc.)
 - [ ] **Deployment**
@@ -169,6 +191,7 @@
   - [ ] Create API docs (using Swagger or Postman collections)
 
 ### 9. Extra Features (Optional)
+
 - [ ] **Real-time Updates**
   - [ ] Consider implementing Socket.io for live notifications or updates
 - [ ] **Advanced Social Features**
