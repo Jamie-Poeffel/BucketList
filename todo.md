@@ -117,13 +117,13 @@
 - [x] **Choose a Database**
   - [x] Decide between MongoDB (with Mongoose) or PostgreSQL (with Sequelize)
 - [ ] **Define Models**
-  - [ ] **User Model:** username, email, hashed password, profile info
+  - [x] **User Model:** username, email, hashed password, profile info
   - [ ] **Bucket List Item Model:** title, description, images, notes, deadline, status (complete/incomplete), privacy (public/private), and user reference
 
 ### 3. Authentication & Authorization
 
 - [ ] **User Authentication Endpoints**
-  - [ ] POST `/signup` – Register a new user
+  - [x] POST `/signup` – Register a new user
   - [ ] POST `/login` – Authenticate and return a JWT token
 - [ ] **Middleware**
   - [ ] Implement JWT verification middleware for protected routes
