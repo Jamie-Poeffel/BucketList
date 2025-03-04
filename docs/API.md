@@ -6,8 +6,8 @@ Welcome to the API documentation for the **Test Endpoint**. This documentation i
 
 ## Overview
 
-- [G `/users`](#endpoint-group-users)
-  - [D `/users/:id`](#endpoint-delete-usersid)
+- [`G /users`](#endpoint-group-users)
+  - [`D /users/:id`](#endpoint-delete-usersid)
 
 ---
 
