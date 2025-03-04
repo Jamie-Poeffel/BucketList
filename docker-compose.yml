@@ -1,0 +1,45 @@
+services:
+  mongo:
+    image: mongo
+    container_name: mongodb
+    restart: always
+    ports:
+      - "27017:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo_data:/data/db
+
+  s3:
+    image: minio/minio
+    container_name: minio
+    restart: always
+    environment:
+      MINIO_ROOT_USER: minioadmin
+      MINIO_ROOT_PASSWORD: minioadmin
+    command: server /data --console-address ":9001"
+    ports:
+      - "9000:9000" # S3 API
+      - "9001:9001" # MinIO Console UI
+    volumes:
+      - minio_data:/data
+
+  api:
+    build: ./backend
+    container_name: express-api
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mongo
+      - s3
+    environment:
+      MONGO_URI: mongodb://root:example@mongo:27017
+      S3_ENDPOINT: http://s3:9000
+      S3_ACCESS_KEY: minioadmin
+      S3_SECRET_KEY: minioadmin
+
+volumes:
+  mongo_data:
+  minio_data:

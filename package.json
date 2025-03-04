@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "dotenv": "^16.4.7",
+    "mongodb": "^6.14.1",
+    "mongoose": "^8.12.0"
+  },
+  "devDependencies": {
+    "@types/mongodb": "^4.0.6",
+    "@types/mongoose": "^5.11.96"
+  }
+}
