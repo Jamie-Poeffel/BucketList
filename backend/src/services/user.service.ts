@@ -4,7 +4,7 @@ import { Response } from 'express';
 
 export const GetAllUsers = async (): Promise<IUser[]> => {
     try {
-        const users = await User.find().lean();  // Use lean for plain objects
+        const users = await User.find().lean();  
         return users;
     } catch (error) {
         console.error('Error fetching users from database:', error);
@@ -19,6 +19,5 @@ export const DeleteUser = async (res: Response, id: String) => {
         return res.status(404).json({ message: 'User not found' });
     }
 
-    // Return success response
     return res.status(200).json({ message: 'User deleted successfully' });
 }
