@@ -2,14 +2,13 @@
 
 Welcome to the API documentation for the **Test Endpoint**. This documentation is designed for GitHub and uses collapsible sections so that you can quickly switch between a brief summary and a full, detailed view.
 
----
+
 
 ## Overview
 
 - [`G /users`](#endpoint-group-users)
   - [`D /users/:id`](#endpoint-delete-usersid)
 
----
 
 ## Endpoint group `/users`
 
