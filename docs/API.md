@@ -93,6 +93,15 @@ Welcome to the API documentation for the **Test Endpoint**. This documentation i
 - **Method:** `POST`  
 - **URL:** `https://localhost:3000/auth/login`
 
+- **body:**
+
+```json
+{
+  "username": "John",
+  "password": "supersecred",
+}
+```
+
   **Response (200 OK):**
 
 ```json

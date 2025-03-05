@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node dist/app.js",
     "build": "tsc",
-    "dev": "nodemon --watch 'src/**/*.ts' --exec ts-node src/app.ts"
+    "dev": "nodemon --watch src/**/*.ts --exec ts-node src/app.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,6 +14,7 @@
   "type": "commonjs",
   "dependencies": {
     "bcrypt": "^5.1.1",
+    "cookie-parser": "^1.4.7",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
+    "@types/cookie-parser": "^1.4.8",
     "@types/express": "^5.0.0",
     "@types/jest": "^29.5.14",
     "@types/jsonwebtoken": "^9.0.9",

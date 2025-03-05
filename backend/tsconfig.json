@@ -4,9 +4,6 @@
         "module": "commonjs",
         "rootDir": "./src",
         "outDir": "./dist",
-        "types": [
-            "jest"
-        ],
         "strict": true,
         "esModuleInterop": true,
         "skipLibCheck": true
