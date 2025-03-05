@@ -122,12 +122,12 @@
 
 ### 3. Authentication & Authorization
 
-- [ ] **User Authentication Endpoints**
+- [x] **User Authentication Endpoints**
   - [x] POST `/signup` – Register a new user
-  - [ ] POST `/login` – Authenticate and return a JWT token
+  - [x] POST `/login` – Authenticate and return a JWT token
 - [ ] **Middleware**
   - [ ] Implement JWT verification middleware for protected routes
-  - [ ] Use bcrypt for password hashing
+  - [x] Use bcrypt for password hashing
 
 ### 4. API Endpoints
 
