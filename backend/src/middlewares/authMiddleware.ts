@@ -1,6 +1,6 @@
 ﻿import { Request, Response, NextFunction } from "express";
 
-export const authMiddleware = (req: Request, res: Response, next: NextFunction) => {
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<Response> => {
     const authHeader = req.headers['authorization'];
 
     if (!authHeader) {
@@ -17,4 +17,5 @@ export const authMiddleware = (req: Request, res: Response, next: NextFunction) 
     } catch (error) {
         return res.status(401).json({ message: "Invalid or expired token" });
     }
+    return res.status(401).json({ message: "Invalid or expired token" });
 };

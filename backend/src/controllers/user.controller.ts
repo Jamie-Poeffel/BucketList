@@ -1,5 +1,5 @@
 ﻿import { Request, Response, RequestHandler } from 'express';
-import { GetAllUsers, DeleteUser } from '../services/user.service';
+import { GetAllUsers, DeleteUser, GetUserCount } from '../services/user.service';
 
 export const getUsers: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     try {
@@ -20,4 +20,8 @@ export const deleteUser: RequestHandler = async (req: Request, res: Response): P
         console.error('Error deleting user:', error);
         res.status(500).json({ message: 'Failed to delete user', error: error });
     }
+}
+export const getUserCount: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+    const count = await GetUserCount();
+    res.json({ count: count });
 }
