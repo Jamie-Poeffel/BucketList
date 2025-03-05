@@ -19,8 +19,7 @@ export const Login: RequestHandler = async (req: Request, res: Response): Promis
 }
 
 export const Signup: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-    const { username, email, password, name, lastname, visibility, profilePicture, bio, socialLinks
-    } = req.body;
+    const { username, email, password, name, lastname, visibility, profilePicture, bio, socialLinks } = req.body;
 
     if (!username) {
         res.status(422).send({ message: 'username is missing' })
@@ -47,13 +46,13 @@ export const Signup: RequestHandler = async (req: Request, res: Response): Promi
         return
     }
 
-    if (!visibility) {
+    if (visibility) {
         if (visibility !== Visibility.PUBLIC || visibility !== Visibility.PRIVATE || visibility !== Visibility.FRIENDS_ONLY)
             res.status(422).send({ message: `visibility can not be ${visibility} it has to be one of these ${Visibility.PUBLIC}, ${Visibility.PRIVATE}, ${Visibility.FRIENDS_ONLY}` })
         return
     }
 
-    if (!socialLinks) {
+    if (socialLinks) {
         if (typeof socialLinks !== "object" && !Array.isArray(socialLinks)) {
             res.status(422).send({ message: `socialLinks has to be an Array` })
             return
