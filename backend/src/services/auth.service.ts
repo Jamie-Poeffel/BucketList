@@ -42,9 +42,16 @@ export async function authenticateUser(res: Response, username: string, password
         res.cookie('auth_token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 3600000,
+            maxAge: 86_400_000,
             sameSite: 'lax',
         });
+
+        res.cookie('refresh_token', refreshtoken, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production',
+            maxAge: 3.1535e10,
+            sameSite: 'lax',
+        })
 
         res.status(200).json({ message: 'Authentication successful' });
     } catch (error) {

@@ -1,6 +1,7 @@
 import { Request, RequestHandler, Response } from "express";
 import userModel, { Visibility } from "../models/user.model";
 import { authenticateUser } from "../services/auth.service";
+import bcrypt from 'bcrypt'
 
 export const Login: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     const { username, password } = req.body
@@ -59,14 +60,17 @@ export const Signup: RequestHandler = async (req: Request, res: Response): Promi
         }
     }
 
+    const saltRounds = process.env.SALTROUNDS || 10;
     const fullname = name + ' ' + lastname;
+
+    const hashpas = await bcrypt.hash(password, saltRounds);
 
     const user = userModel.create({
         firstName: `${name}`,
         lastName: `${lastname}`,
         fullName: `${fullname}`,
         email: `${email}`,
-        password: `${password}`,
+        password: `${hashpas}`,
         username: `${username}`,
         profileInfo: {
             visibility: visibility || Visibility.PRIVATE,
