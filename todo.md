@@ -125,8 +125,8 @@
 - [x] **User Authentication Endpoints**
   - [x] POST `/signup` – Register a new user
   - [x] POST `/login` – Authenticate and return a JWT token
-- [ ] **Middleware**
-  - [ ] Implement JWT verification middleware for protected routes
+- [x] **Middleware**
+  - [x] Implement JWT verification middleware for protected routes
   - [x] Use bcrypt for password hashing
 
 ### 4. API Endpoints
