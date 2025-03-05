@@ -6,6 +6,7 @@ Welcome to the API documentation for the **Test Endpoint**. This documentation i
 
 - [`/users`](#endpoint-group-users)
   - [`D /users/:id`](#endpoint-delete-usersid)
+  - [`G /users/count`](#endpoint-delete-userscount)
 - [`/auth`](#endpoint-group-auth)
   - [`P /auth/signup`](#endpoint-post-authsignup)
   - [`P /auth/login`](#endpoint-post-authlogin)
@@ -27,6 +28,24 @@ Welcome to the API documentation for the **Test Endpoint**. This documentation i
 ```json
 {
     "message": "User deleted successfully"
+}
+```
+
+### Endpoint: DELETE `/users/count`
+
+> [!NOTE]
+> This Call will delete a User from the id
+
+  **Request:**  
+
+- **Method:** `GET`  
+- **URL:** `https://localhost:3000/users/count`
+
+  **Response (200 OK):**
+
+```json
+{
+    "count": 1
 }
 ```
 
