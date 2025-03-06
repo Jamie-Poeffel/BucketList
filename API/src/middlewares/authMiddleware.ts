@@ -1,46 +1,63 @@
 ﻿import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt from 'jsonwebtoken'
 import { config } from 'dotenv';
+import User from '../models/user.model';
 
-config();  // Load environment variables (e.g., JWT_SECRET)
+config();
 
-export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-    const accessToken = req.cookies['auth_token'];  // Retrieve access token from cookies
-    const refreshToken = req.cookies['refresh_token'];  // Retrieve refresh token from cookies
 
-    // If no access token, return 401
-    if (!accessToken) {
-        res.status(401).json({ message: 'Access token is missing' });
-        return
-    }
+export const authMiddleware = async (req: Request, res: Response, next: NextFunction): Promise<any> => {
+    const accessToken = req.cookies['access_token'];
+    const refreshToken = req.cookies['refresh_token'];
 
     try {
-        // Verify the access token
-        const decodedAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET as string);
-        // Typecast `req` as `any` and attach `user`
-        (req as any).user = decodedAccessToken;  // Attach the decoded user info to the request
+        if (!accessToken && !refreshToken) {
+            return res.status(401).json({ message: 'No tokens provided' });
+        }
+
+        if (accessToken) {
+            const decodedAccessToken = jwt.verify(accessToken, process.env.JWT_SECRET as string) as { userId: string };
+            const user = await User.findById(decodedAccessToken.userId);
+
+            if (!user) {
+                return res.status(401).json({ message: 'User does not exist' });
+            }
+
+            (req as any).user = user;
+            return next();
+        }
+
+        if (refreshToken) {
+            const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET as string) as { userId: string };
+            const user = await User.findById(decodedRefreshToken.userId);
+
+            if (!user) {
+                return res.status(401).json({ message: 'User from refresh token does not exist' });
+            }
+
+            const token = jwt.sign(
+                { userId: user._id, username: user.username, email: user.email },
+                process.env.JWT_SECRET || 'your_jwt_secret',
+                { expiresIn: '15m' }
+            );
+
+
+            res.cookie('auth_token', token, {
+                httpOnly: true,
+                secure: process.env.NODE_ENV === 'production',
+                sameSite: 'strict',
+                maxAge: 15 * 60 * 1000,
+            });
+
+            (req as any).user = user;
+
+            return next();
+        }
+
+        return res.status(401).json({ message: 'Unauthorized' });
+
     } catch (error) {
-        // If the access token is invalid or expired, check the refresh token
-        if (!refreshToken) {
-            res.status(401).json({ message: 'Access and refresh tokens are missing or invalid' });
-            return
-        }
-
-        try {
-            // Verify the refresh token (you might need a separate secret for this)
-            const decodedRefreshToken = jwt.verify(refreshToken, process.env.JWT_SECRET as string);
-            // Typecast `req` as `any` and attach `refreshToken`
-            (req as any).refreshToken = decodedRefreshToken;  // Attach the decoded refresh token to the request
-
-            // Optionally, implement logic to refresh the access token here if needed
-            res.status(401).json({ message: 'Access token expired, please use refresh token' });
-            return
-        } catch (error) {
-            res.status(401).json({ message: 'Invalid or expired refresh token' });
-            return
-        }
+        console.error('Auth error:', error);
+        return res.status(401).json({ message: 'Invalid or expired tokens' });
     }
-
-    // If the access token is valid, move to the next middleware or route handler
-    next();  // Continue to the next middleware
 };

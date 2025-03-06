@@ -30,7 +30,7 @@ export async function authenticateUser(res: Response, username: string, password
         const token = jwt.sign(
             { userId: user._id, username: user.username, email: user.email },
             process.env.JWT_SECRET || 'your_jwt_secret',
-            { expiresIn: '1d' }
+            { expiresIn: '15m' }
         );
 
         const refreshtoken = jwt.sign(
@@ -42,15 +42,15 @@ export async function authenticateUser(res: Response, username: string, password
         res.cookie('auth_token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 86_400_000,
-            sameSite: 'lax',
+            maxAge: 15 * 60 * 1000,
+            sameSite: 'strict',
         });
 
         res.cookie('refresh_token', refreshtoken, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 3.1535e10,
-            sameSite: 'lax',
+            maxAge: 365 * 24 * 60 * 60 * 1000,
+            sameSite: 'strict',
         })
 
         res.status(200).json({ message: 'Authentication successful' });

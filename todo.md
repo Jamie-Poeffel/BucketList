@@ -133,8 +133,8 @@
 
 #### User Endpoints
 
-- [ ] GET `/profile` – Retrieve the logged-in user's profile
-- [ ] PUT `/profile` – Update user profile details
+- [x] GET `/profile` – Retrieve the logged-in user's profile
+- [x] PUT `/profile` – Update user profile details
 
 #### Bucket List Endpoints
 
