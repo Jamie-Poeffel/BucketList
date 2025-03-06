@@ -3,6 +3,7 @@ import userRoutes from './routes/user.route';
 import authRoutes from './routes/auth.route';
 import { connectDB } from './config/db';
 import cookieParser from 'cookie-parser';
+import router from './routes/feed.route';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(cookieParser());
 
 app.use('/users', userRoutes);
 app.use('/auth', authRoutes);
+app.use('/feed', router);
 
 const PORT = process.env.PORT || 3000;
 
