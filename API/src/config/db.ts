@@ -10,11 +10,10 @@ export async function connectDB() {
         console.log('MongoDB connected successfully!');
     } catch (error) {
         console.error('MongoDB connection error:', error);
-        process.exit(1); // Optional: Exit the process if the DB fails to connect
+        process.exit(1);
     }
 }
 
-// Optional: Listen for other connection events
 mongoose.connection.on('disconnected', () => {
     console.log('MongoDB disconnected');
 });

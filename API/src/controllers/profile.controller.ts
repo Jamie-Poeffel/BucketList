@@ -5,7 +5,7 @@ import { Visibility } from "../models/user.model";
 export const getUserProfile: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     const user = (req as any).user;
 
-    res.json({ username: user.username, profileinfo: user.profileInfo });
+    res.json({ id: user._id, username: user.username, profileinfo: user.profileInfo });
 }
 
 export const putUserProfile: RequestHandler = async (req: Request, res: Response): Promise<void> => {
@@ -37,7 +37,7 @@ export const putUserProfile: RequestHandler = async (req: Request, res: Response
         socialLinks: updatedSocialLinks,
     });
 
-    res.status(200).json({ username: updatedUser.username, profileinfo: updatedUser.profileInfo });
+    res.status(200).json({ id: updatedUser._id, username: updatedUser.username, profileinfo: updatedUser.profileInfo });
 }
 
 export const getSpecificUser: RequestHandler = async (req: Request, res: Response): Promise<void> => {
@@ -45,5 +45,5 @@ export const getSpecificUser: RequestHandler = async (req: Request, res: Respons
 
     const user = await getUserForId(id);
 
-    res.json({ username: user.username, profileinfo: user.profileInfo });
+    res.json({ id: user._id, username: user.username, profileinfo: user.profileInfo });
 }

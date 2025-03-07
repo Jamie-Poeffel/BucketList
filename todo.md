@@ -116,9 +116,9 @@
 
 - [x] **Choose a Database**
   - [x] Decide between MongoDB (with Mongoose) or PostgreSQL (with Sequelize)
-- [ ] **Define Models**
+- [x] **Define Models**
   - [x] **User Model:** username, email, hashed password, profile info
-  - [ ] **Bucket List Item Model:** title, description, images, notes, deadline, status (complete/incomplete), privacy (public/private), and user reference
+  - [x] **Bucket List Item Model:** title, description, images, notes, deadline, status (complete/incomplete), privacy (public/private), and user reference
 
 ### 3. Authentication & Authorization
 
