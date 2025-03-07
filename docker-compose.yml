@@ -26,8 +26,8 @@ services:
       - minio_data:/data
 
   api:
-    build: ./backend
-    container_name: express-api
+    build: ./API
+    container_name: API
     restart: always
     ports:
       - "3000:3000"
