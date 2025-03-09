@@ -1,10 +1,31 @@
 ﻿import User, { IUser } from '../models/user.model'
 import { Response } from 'express';
-
+import s3 from '../config/s3';
+import { config } from 'dotenv';
+config();
 
 export const GetAllUsers = async (): Promise<IUser[]> => {
     try {
         const users = await User.find().lean();
+
+        users.forEach(async (e) => {
+            if (e.profileInfo.profilePicture?.imageName) {
+                const params = {
+                    Bucket: process.env.S3_PROFILE_BUCKET as string,
+                    Key: e.profileInfo.profilePicture?.imageName,
+                    Expires: 3600,
+                };
+
+                s3.getSignedUrl("getObject", params, async (err, url) => {
+                    if (err) {
+                        console.error("Error generating signed URL", err);
+                        return [];
+                    }
+                    await User.findOneAndUpdate({ _id: e._id }, { "profileInfo.profilePicture.profilePictureURI": url });
+                });
+            }
+        });
+
         return users;
     } catch (error) {
         console.error('Error fetching users from database:', error);
@@ -13,6 +34,36 @@ export const GetAllUsers = async (): Promise<IUser[]> => {
 };
 
 export const DeleteUser = async (res: Response, id: String) => {
+    const user = await User.findOne({ _id: id });
+
+    const bucket = process.env.S3_PROFILE_BUCKET as string;
+    const imageName = user?.profileInfo.profilePicture?.imageName as string;
+
+    if (imageName) {
+        const params = {
+            Bucket: bucket,
+            Key: imageName,
+        };
+
+        try {
+            await s3.headObject(params).promise();
+        } catch (error: any) {
+            // If error code is 'NotFound', the image doesn't exist.
+            if (error.code === "NotFound") {
+                return false;
+            }
+            // For other errors, you might want to throw them or handle differently.
+            throw error;
+        }
+
+        s3.deleteObject(params, (err, data) => {
+            if (err) {
+                console.error("Error deleting object:", err);
+            } else {
+                console.log("Object deleted successfully:", data);
+            }
+        });
+    }
     const result = await User.deleteOne({ _id: id });
 
     if (result.deletedCount === 0) {

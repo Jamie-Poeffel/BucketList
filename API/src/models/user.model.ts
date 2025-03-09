@@ -15,7 +15,10 @@ export interface IUser extends Document {
     email: string;
     password: string;
     profileInfo: {
-        profilePicture?: string;
+        profilePicture?: {
+            imageName?: string;
+            profilePictureURI?: string;
+        }
         visibility: Visibility;
         bio?: string;
         socialLinks?: {
@@ -28,15 +31,25 @@ export interface IUser extends Document {
 
 interface ISocialLinks {
     platform: string,
-    url: string
+    url: string,
 }
 
 interface IProfileInfo {
-    profilePicture?: string,
+    profilePicture?: IProfileInfo,
     visibility: Visibility,
     bio?: string,
     socialLinks?: ISocialLinks[],
 }
+
+interface IProfilePicture {
+    imageName?: string,
+    profilePictureURI?: string,
+}
+
+const profilePictureSchema = new Schema<IProfilePicture>({
+    imageName: { type: String, unique: true },
+    profilePictureURI: { type: String, unique: true }
+}, { _id: false });
 
 const socialLinkSchema = new Schema<ISocialLinks>({
     platform: { type: String, required: true },
@@ -44,7 +57,7 @@ const socialLinkSchema = new Schema<ISocialLinks>({
 }, { _id: false });
 
 const profileInfoSchema = new Schema<IProfileInfo>({
-    profilePicture: { type: String },
+    profilePicture: profilePictureSchema,
     visibility: {
         type: String,
         enum: Object.values(Visibility),

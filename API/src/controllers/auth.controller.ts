@@ -74,7 +74,10 @@ export const Signup: RequestHandler = async (req: Request, res: Response): Promi
         username: `${username}`,
         profileInfo: {
             visibility: visibility || Visibility.PRIVATE,
-            profilePicture: profilePicture || '',
+            profilePicture: {
+                imageName: '',
+                profilePictureURI: ''
+            },
             bio: bio || '',
             socialLinks: socialLinks || []
         }
