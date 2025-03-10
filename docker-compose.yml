@@ -1,7 +1,7 @@
 services:
   mongo:
     image: mongo
-    container_name: mongodb
+    container_name: Bucketlist_mongodb
     restart: always
     ports:
       - "27017"
@@ -11,23 +11,32 @@ services:
     volumes:
       - mongo_data:/data/db
 
+  redis:
+    image: redis:latest
+    restart: always
+    container_name: Bucketlist_redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+
   s3:
     image: minio/minio
-    container_name: minio
+    container_name: Bucketlist_minio
     restart: always
     environment:
       MINIO_ROOT_USER: minioadmin
       MINIO_ROOT_PASSWORD: minioadmin
     command: server /data --console-address ":9001"
     ports:
-      - "9000:9000" # S3 API
-      - "9001:9001" # MinIO Console UI
+      - "9000:9000"
+      - "9001:9001"
     volumes:
       - minio_data:/data
 
   api:
     build: ./API
-    container_name: API
+    container_name: Bucketlist_API
     restart: always
     ports:
       - "3000:3000"
@@ -43,3 +52,4 @@ services:
 volumes:
   mongo_data:
   minio_data:
+  redis-data:

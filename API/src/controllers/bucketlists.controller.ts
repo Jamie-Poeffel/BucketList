@@ -1,6 +1,7 @@
 import { RequestHandler, Request, Response } from "express";
 import bucketlist, { IBucketList } from "../models/bucketlists.model";
-import { GetAllBucketlistItems, GetAllBucketlistItemsforID } from "../services/bucketlists.service";
+import { GetAllBucketlistItems, GetAllBucketlistItemsforID, GetBucketlistFromId } from "../services/bucketlists.service";
+import { client } from './../config/redis'
 
 export const getAllBucketlists: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     const bucketlists = await GetAllBucketlistItems();
@@ -72,3 +73,32 @@ export const getUsersBucketlist: RequestHandler = async (req: Request, res: Resp
 
     res.status(200).json(bucketlistitems);
 }
+
+export const getBucketlistbyId: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const id = req.params.id;
+
+        // Try to get from Redis cache
+        let bucketlistIteme = await client.get(id);
+        let bucketlistItem;
+
+        if (bucketlistIteme) {
+            bucketlistItem = JSON.parse(bucketlistIteme);
+            console.log(`Cache hit for ID: ${id}`);
+        } else {
+            bucketlistItem = await GetBucketlistFromId(id);
+
+            if (!bucketlistItem) {
+                res.status(404).json({ message: `Bucketlist item with ID ${id} not found.` });
+                return;
+            }
+
+        }
+        await client.set(id, JSON.stringify(bucketlistItem), { EX: 60 });
+
+        res.status(200).json(bucketlistItem);
+    } catch (error: any) {
+        console.error('Error fetching bucketlist item:', error);
+        res.status(500).json({ message: "An error occurred", error: error.message });
+    }
+};

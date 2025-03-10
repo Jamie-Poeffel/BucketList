@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import feedRoutes from './routes/feed.route';
 import bucketlistRoutes from './routes/bucketlists.route';
 import publicRoutes from './routes/public.route'
+import { connectRedis } from './config/redis';
 
 const app = express();
 
@@ -22,6 +23,7 @@ const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, async () => {
     await connectDB();
+    await connectRedis();
     console.log(`Server is running on http://localhost:${PORT}`);
 });
 

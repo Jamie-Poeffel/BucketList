@@ -74,9 +74,9 @@ export const DeleteUser = async (res: Response, id: String) => {
 }
 
 export const GetUserCount = async (): Promise<Number> => {
-    const users = await GetAllUsers();
+    const users = await User.find().countDocuments();
 
-    return users.length;
+    return users;
 }
 
 export const getUserForId = async (id: string): Promise<IUser> => {
