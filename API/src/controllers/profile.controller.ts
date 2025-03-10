@@ -3,6 +3,7 @@ import { getUserForId, updateSocialLinks, validateSocialLinks, UpdateUser } from
 import { Visibility } from "../models/user.model";
 import s3 from './../config/s3'
 import User from "../models/user.model";
+import { client } from '../config/redis'
 
 export const getUserProfile: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     const user = (req as any).user;
@@ -60,7 +61,17 @@ export const putUserProfile: RequestHandler = async (req: Request, res: Response
 export const getSpecificUser: RequestHandler = async (req: Request, res: Response): Promise<void> => {
     const id = req.params.id
 
-    const user = await getUserForId(id);
+    const userch = await client.get(`${id}`);
+    let user;
+
+    if (userch) {
+        user = JSON.parse(userch)
+    } else {
+        user = await getUserForId(id);
+
+        client.set(`${id}`, `${user}`);
+    }
+
 
     res.json({ id: user._id, username: user.username, profileinfo: user.profileInfo });
 }
