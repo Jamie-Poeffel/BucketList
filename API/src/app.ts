@@ -6,6 +6,7 @@ import cookieParser from 'cookie-parser';
 import feedRoutes from './routes/feed.route';
 import bucketlistRoutes from './routes/bucketlists.route';
 import publicRoutes from './routes/public.route'
+import chatRoutes from './routes/chat.route';
 import { connectRedis } from './config/redis';
 
 const app = express();
@@ -18,6 +19,7 @@ app.use('/auth', authRoutes);
 app.use('/feed', feedRoutes);
 app.use('/bucketlists', bucketlistRoutes);
 app.use('/public', publicRoutes);
+app.use('/chat', chatRoutes)
 
 const PORT = process.env.PORT || 3000;
 

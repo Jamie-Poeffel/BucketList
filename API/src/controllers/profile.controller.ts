@@ -65,13 +65,11 @@ export const getSpecificUser: RequestHandler = async (req: Request, res: Respons
     let user;
 
     if (userch) {
-        user = JSON.parse(userch)
+        user = JSON.parse(userch);
     } else {
         user = await getUserForId(id);
-
-        client.set(`${id}`, `${user}`);
+        client.set(`${id}`, JSON.stringify(user));
     }
-
 
     res.json({ id: user._id, username: user.username, profileinfo: user.profileInfo });
 }
