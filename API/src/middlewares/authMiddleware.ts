@@ -45,7 +45,7 @@ export const authMiddleware = async (req: Request, res: Response, next: NextFunc
             res.cookie('auth_token', token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === 'production',
-                sameSite: 'strict',
+                sameSite: 'lax',
                 maxAge: 15 * 60 * 1000,
             });
 

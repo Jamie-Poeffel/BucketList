@@ -2,9 +2,14 @@ import { RequestHandler, Request, Response } from "express";
 import Chat, { IChat, IMessages } from "../models/chat.model";
 import User from "../models/user.model";
 
-export const addChat: RequestHandler = async (req: Request, res: Response): Promise<void> => {
-    const { users } = req.body;
 
+export const addChat: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+    const { users, name } = req.body;
+
+    if (!name) {
+        res.status(422).json({ message: "No chat added because it has no name" });
+        return;
+    }
     if (!Array.isArray(users) || users.length === 0) {
         res.status(422).json({ message: "No chat added because it has no users" });
         return;
@@ -13,7 +18,7 @@ export const addChat: RequestHandler = async (req: Request, res: Response): Prom
     try {
         const userList = await Promise.all(
             users.map(async (e) => {
-                const user = await User.findOne({ username: e.username }, { _id: 1 });
+                const user = await User.findOne({ username: e.username }, { _id: true });
                 if (!user) {
                     return null;
                 }
@@ -27,7 +32,7 @@ export const addChat: RequestHandler = async (req: Request, res: Response): Prom
             return;
         }
 
-        const chat = await Chat.create({ users: validUsers });
+        const chat = await Chat.create({ users: validUsers, name: name });
 
         res.status(201).json({ message: "Chat created successfully", chat });
     } catch (error: any) {
@@ -58,6 +63,8 @@ export const streamChat: RequestHandler = async (req: Request, res: Response): P
 
     let lastMessageTimestamp = new Date(0);
 
+    console.log(lastMessageTimestamp)
+
     const sendNewMessages = async () => {
         try {
             // Typisierung sicherstellen
@@ -76,10 +83,12 @@ export const streamChat: RequestHandler = async (req: Request, res: Response): P
                 (msg) => new Date(msg.timestamp) > lastMessageTimestamp
             );
 
-            if (newMessages.length > 0) {
-                res.write(`data: ${JSON.stringify(newMessages)}\n\n`);
-                // Aktualisiere den Timestamp
-                lastMessageTimestamp = new Date(newMessages[newMessages.length - 1].timestamp);
+            if (lastMessageTimestamp !== new Date(0)) {
+                if (newMessages.length > 0) {
+                    res.write(`data: ${JSON.stringify(newMessages)}\n\n`);
+                    // Aktualisiere den Timestamp
+                    lastMessageTimestamp = new Date(newMessages[newMessages.length - 1].timestamp);
+                }
             }
         } catch (error) {
             console.error("Error streaming chat:", error);
@@ -167,3 +176,32 @@ export const deleteMessage: RequestHandler = async (req: Request, res: Response)
     }
 };
 
+export const getChatsforUser: RequestHandler = async (req: Request, res: Response): Promise<void> => {
+    try {
+        const userid = (req as any).user._id;
+
+        const result = await Chat.find({ "users.id": userid }, { name: 1, messages: 1 });
+
+        const chats = result.map((chat) => {
+            let lastMessage = null;
+
+            if (chat.messages && chat.messages.length > 0) {
+                lastMessage = chat.messages[chat.messages.length - 1];
+            } else {
+                lastMessage = { sender: 'System', content: 'No messages yet', timestamp: 'N/A' };
+            }
+
+            return {
+                id: chat._id,
+                name: chat.name,
+                lastMessage
+            };
+        });
+
+        res.status(200).json({ chats });
+
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Internal server error' });
+    }
+};

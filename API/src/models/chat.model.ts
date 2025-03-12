@@ -2,6 +2,7 @@ import mongoose, { Document, Schema } from 'mongoose';
 
 export interface IChat extends Document {
     users: [IUsers],
+    name: string,
     messages: [IMessages]
 }
 
@@ -25,11 +26,9 @@ const usersSchema = new Schema<IUsers>({
     id: {
         type: String,
         required: true,
-        unique: true
     },
     username: {
         type: String,
-        unique: true,
         required: true
     }
 }, { "_id": false })
@@ -63,6 +62,7 @@ const messagesSchema = new Schema<IMessages>({
 
 const chatSchema = new Schema<IChat>({
     users: [usersSchema],
+    name: { type: String, required: true },
     messages: { type: [messagesSchema], required: false },
 })
 

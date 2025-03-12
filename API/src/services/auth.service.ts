@@ -42,8 +42,8 @@ export async function authenticateUser(res: Response, username: string, password
         res.cookie('auth_token', token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production',
-            maxAge: 15 * 60 * 1000,
             sameSite: 'strict',
+            maxAge: 15 * 60 * 1000,
         });
 
         res.cookie('refresh_token', refreshtoken, {
